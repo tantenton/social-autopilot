@@ -10,12 +10,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    // Resolve platformId from connected platform
+    const connected = await prisma.connectedPlatform.findFirst({
+      where: { name: platform },
+    });
+    if (!connected) {
+      return NextResponse.json({ error: 'Platform not connected' }, { status: 400 });
+    }
+
     const post = await prisma.post.create({
       data: {
-        contentPieceId,
+        contentId: contentPieceId,
+        platformId: connected.id,
         platform,
         scheduledAt: new Date(scheduledAt),
-        status: 'scheduled',
+        status: 'QUEUED',
       },
     });
 
