@@ -1,11 +1,5 @@
-import dynamic from "next/dynamic";
 import { Card, CardContent } from "@/components/ui/card";
-
-const AnalyticsCharts = dynamic(
-  () => import("@/components/analytics/AnalyticsCharts"),
-  { ssr: false }
-);
-
+import AnalyticsCharts from "@/components/analytics/AnalyticsCharts";
 import { getDashboardStats, getEngagementByDay, getPlatformBreakdown } from "@/lib/analytics";
 import { auth } from "@/lib/auth";
 
