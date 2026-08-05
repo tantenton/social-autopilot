@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles, Filter } from "lucide-react";
 
 const mockIdeas = [
-  { id: "1", topic: "AI Generatif Indonesia", viralityScore: 82, platforms: ["X", "THREADS"], sentiment: "HUMOROUS" },
+  { id: "1", topic: "Generative AI Indonesia", viralityScore: 82, platforms: ["X", "THREADS"], sentiment: "HUMOROUS" },
   { id: "2", topic: "Tren Fashion 2025", viralityScore: 74, platforms: ["INSTAGRAM", "TIKTOK"], sentiment: "CASUAL" },
   { id: "3", topic: "Kuliner Viral Jakarta", viralityScore: 69, platforms: ["FACEBOOK", "INSTAGRAM"], sentiment: "PROFESSIONAL" },
   { id: "4", topic: "Startup Digital", viralityScore: 58, platforms: ["X"], sentiment: "CASUAL" },
@@ -38,7 +38,7 @@ export default function IdeasPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Idea Riset</h1>
-          <p className="mt-2 text-[rgb(var(--color-text-muted))]">Ide konten berbasis tren dan skor viralitas.</p>
+          <p className="mt-2 text-[rgb(var(--color-text-muted))]">Content ideas based on trends and virality scores.</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           {["X", "THREADS", "INSTAGRAM", "TIKTOK", "FACEBOOK", "YOUTUBE"].map((p) => (
@@ -89,7 +89,7 @@ export default function IdeasPage() {
                 className="inline-flex items-center gap-2 rounded-lg bg-[rgb(var(--color-primary))] text-white px-4 py-2.5 text-sm font-medium shadow hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary-hover))] focus-visible:ring-offset-2"
               >
                 <Sparkles size={16} aria-hidden="true" />
-                Generate Konten
+                Generate Content
               </a>
             </CardContent>
           </Card>

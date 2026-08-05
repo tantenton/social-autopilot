@@ -2,9 +2,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 const items = [
-  { id: 1, text: "Promo produk baru dengan diskon 20%", platform: "X", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80" },
-  { id: 2, text: "Tips meningkatkan engagement di Threads", platform: "Threads", image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80" },
-  { id: 3, text: "Review pelanggan bulan ini", platform: "Instagram", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" },
+  { id: 1, text: "New product promo with 20% discount", platform: "X", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80" },
+  { id: 2, text: "Tips to increase engagement on Threads", platform: "Threads", image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80" },
+  { id: 3, text: "Customer review this month", platform: "Instagram", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" },
 ];
 
 export default function ContentPage() {
@@ -12,7 +12,7 @@ export default function ContentPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Content</h1>
-        <p className="mt-2 text-[rgb(var(--color-text-muted))]">Konten yang telah dihasilkan dan siap dipublikasikan.</p>
+        <p className="mt-2 text-[rgb(var(--color-text-muted))]">Content that has been generated and is ready to publish.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

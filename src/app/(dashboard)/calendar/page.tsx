@@ -2,11 +2,11 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 const events = [
-  { date: "05 Aug", title: "Promo Akhir Tahun", platform: "X", time: "14:00" },
-  { date: "06 Aug", title: "Tips Threads", platform: "Threads", time: "09:00" },
-  { date: "07 Aug", title: "Review Pelanggan", platform: "Instagram", time: "18:00" },
-  { date: "08 Aug", title: "Promo Akhir Tahun", platform: "X", time: "14:00" },
-  { date: "10 Aug", title: "Launch Produk", platform: "Instagram", time: "11:00" },
+  { date: "05 Aug", title: "Year-End Promo", platform: "X", time: "14:00" },
+  { date: "06 Aug", title: "Threads Tips", platform: "Threads", time: "09:00" },
+  { date: "07 Aug", title: "Customer Review", platform: "Instagram", time: "18:00" },
+  { date: "08 Aug", title: "Year-End Promo", platform: "X", time: "14:00" },
+  { date: "10 Aug", title: "Product Launch", platform: "Instagram", time: "11:00" },
 ];
 
 export default function CalendarPage() {
@@ -14,7 +14,7 @@ export default function CalendarPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Calendar</h1>
-        <p className="mt-2 text-[rgb(var(--color-text-muted))]">Jadwal posting yang akan datang.</p>
+        <p className="mt-2 text-[rgb(var(--color-text-muted))]">Upcoming post schedule.</p>
       </div>
 
       <div className="grid gap-3">

@@ -29,7 +29,7 @@ export async function fetchGoogleTrends(country = 'ID'): Promise<TrendingTopic[]
     }
     if (topics.length === 0) {
       return [
-        { keyword: 'teknologi AI Indonesia', score: 82, source: 'google-trends' },
+        { keyword: 'AI technology', score: 82, source: 'google-trends' },
         { keyword: 'gaya hidup sehat 2025', score: 74, source: 'google-trends' },
         { keyword: 'influencer marketing', score: 69, source: 'google-trends' },
       ];
@@ -37,7 +37,7 @@ export async function fetchGoogleTrends(country = 'ID'): Promise<TrendingTopic[]
     return topics.slice(0, 10);
   } catch {
     return [
-      { keyword: 'AI generatif Indonesia', score: 85, source: 'google-trends' },
+      { keyword: 'Generative AI', score: 85, source: 'google-trends' },
       { keyword: 'tren fashion 2025', score: 77, source: 'google-trends' },
       { keyword: 'kuliner viral Jakarta', score: 72, source: 'google-trends' },
     ];

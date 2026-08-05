@@ -4,9 +4,9 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 
 const campaigns = [
-  { id: 1, name: "Promo Akhir Tahun", platforms: ["X", "Threads"], status: "Aktif", posts: 4 },
-  { id: 2, name: "Launch Produk", platforms: ["Instagram", "X"], status: "Draf", posts: 0 },
-  { id: 3, name: "Ulasan Pelanggan", platforms: ["Threads", "Instagram"], status: "Selesai", posts: 6 },
+  { id: 1, name: "Year-End Promo", platforms: ["X", "Threads"], status: "Active", posts: 4 },
+  { id: 2, name: "Product Launch", platforms: ["Instagram", "X"], status: "Draft", posts: 0 },
+  { id: 3, name: "Ulasan Pelanggan", platforms: ["Threads", "Instagram"], status: "Completed", posts: 6 },
 ];
 
 export default function CampaignsPage() {
@@ -15,13 +15,13 @@ export default function CampaignsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Campaigns</h1>
-          <p className="mt-2 text-[rgb(var(--color-text-muted))]">Kelola semua kampanye otomatis Anda.</p>
+          <p className="mt-2 text-[rgb(var(--color-text-muted))]">Manage all your automated campaigns.</p>
         </div>
         <Link
           href="/campaigns/new"
           className="inline-flex items-center gap-2 rounded-lg bg-[rgb(var(--color-primary))] text-white px-4 py-3 text-sm font-medium shadow hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary-hover))] focus-visible:ring-offset-2"
         >
-          <Plus size={16} aria-hidden="true" /> Baru
+          <Plus size={16} aria-hidden="true" /> New
         </Link>
       </div>
 
@@ -32,9 +32,9 @@ export default function CampaignsPage() {
               <div className="flex items-start justify-between">
                 <h3 className="font-bold text-lg leading-tight">{c.name}</h3>
                 <Badge
-                  variant={c.status === "Aktif" ? "default" : c.status === "Selesai" ? "outline" : "secondary"}
+                  variant={c.status === "Active" ? "default" : c.status === "Completed" ? "outline" : "secondary"}
                   className={`text-xs ${
-                    c.status === "Aktif" ? "bg-[rgb(var(--color-success))]/10 text-[rgb(var(--color-success))] border-[rgb(var(--color-success))]/20" : ""
+                    c.status === "Active" ? "bg-[rgb(var(--color-success))]/10 text-[rgb(var(--color-success))] border-[rgb(var(--color-success))]/20" : ""
                   }`}
                 >
                   {c.status}

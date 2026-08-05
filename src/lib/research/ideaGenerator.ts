@@ -26,7 +26,7 @@ export async function generateIdeas(
 
   for (const topic of topics) {
     for (const platform of platforms) {
-      const prompt = `Generate 3 viral content angles for the topic "${topic}" on platform ${platform} for an Indonesian audience.
+      const prompt = `Generate 3 viral content angles for the topic "${topic}" on platform ${platform} for a global audience.
 Return ONLY JSON array of 3 objects with keys: angle (string), hook (string), tone (CASUAL/PROFESSIONAL/HUMOROUS).
 `;
       try {

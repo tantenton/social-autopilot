@@ -15,7 +15,7 @@ export default async function AnalyticsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Analytics</h1>
-        <p className="mt-2 text-[rgb(var(--color-text-muted))]">Metrik performa konten dan kampanye Anda.</p>
+        <p className="mt-2 text-[rgb(var(--color-text-muted))]">Content and campaign performance metrics.</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

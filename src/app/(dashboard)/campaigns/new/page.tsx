@@ -20,15 +20,15 @@ export default function NewCampaignPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Kampanye Baru</h1>
-        <p className="mt-2 text-[rgb(var(--color-text-muted))]">Buat kampanye otomatis baru dengan jadwal posting.</p>
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">New Campaign</h1>
+        <p className="mt-2 text-[rgb(var(--color-text-muted))]">Create a new automated campaign with a posting schedule.</p>
       </div>
 
       <Card className="rounded-xl shadow-sm border-[rgb(var(--color-border))]">
         <CardContent className="p-6 space-y-6">
           <div className="space-y-2">
             <label htmlFor="name" className="block text-sm font-semibold">Nama Kampanye</label>
-            <Input id="name" placeholder="Contoh: Promo Akhir Tahun" />
+            <Input id="name" placeholder="Contoh: Year-End Promo" />
           </div>
 
           <div className="space-y-3">
@@ -55,7 +55,7 @@ export default function NewCampaignPage() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="cron" className="block text-sm font-semibold">Jadwal (cron)</label>
+            <label htmlFor="cron" className="block text-sm font-semibold">Schedule (cron)</label>
             <Input id="cron" value={cron} onChange={(e) => setCron(e.target.value)} placeholder="0 14 * * *" />
             <p className="text-xs text-[rgb(var(--color-text-muted))]">Contoh: 0 14 * * * (setiap hari pukul 14:00)</p>
           </div>
@@ -68,7 +68,7 @@ export default function NewCampaignPage() {
                 active ? "bg-[rgb(var(--color-primary))]" : "bg-[rgb(var(--color-border))]"
               }`}
               aria-pressed={active}
-              aria-label="Aktifkan kampanye"
+              aria-label="Activekan kampanye"
             >
               <span
                 className={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${
@@ -76,7 +76,7 @@ export default function NewCampaignPage() {
                 }`}
               />
             </button>
-            <span className="text-sm font-medium">Aktifkan kampanye</span>
+            <span className="text-sm font-medium">Activekan kampanye</span>
           </div>
 
           <div className="pt-2">
