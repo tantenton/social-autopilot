@@ -21,7 +21,7 @@ Evaluate virality potential (0-100) based on:
 - Emotional triggers: controversy, FOMO, humor, inspiration (weight 30%)
 - Platform fit: short punchy for X, storytelling for Threads, visual for Instagram/TikTok, long form for YouTube (weight 25%)
 - Trend recency: how fresh / rising is this topic? (weight 25%)
-- Target audience Indonesia: relevance to global culture, language, and current events (weight 20%)
+- Target audience: relevance to global culture, language, and current events (weight 20%)
 
 Return ONLY a JSON object with exactly these keys:
 { "score": number (0-100), "reasoning": "brief explanation", "suggestedAngles": ["angle1", "angle2", "angle3"] }
@@ -47,7 +47,7 @@ Evaluate virality potential (0-100) based on:
 - Emotional triggers: controversy, FOMO, humor, inspiration (weight 30%)
 - Platform fit: short punchy for X, storytelling for Threads, visual for Instagram/TikTok, long form for YouTube (weight 25%)
 - Trend recency: how fresh / rising is this topic? (weight 25%)
-- Target audience Indonesia: relevance to global culture, language, and current events (weight 20%)
+- Target audience: relevance to global culture, language, and current events (weight 20%)
 
 Return ONLY a JSON object with exactly these keys:
 { "score": number (0-100), "reasoning": "brief explanation", "suggestedAngles": ["angle1", "angle2", "angle3"] }

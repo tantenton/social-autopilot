@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles, Filter } from "lucide-react";
 
 const mockIdeas = [
-  { id: "1", topic: "Generative AI Indonesia", viralityScore: 82, platforms: ["X", "THREADS"], sentiment: "HUMOROUS" },
+  { id: "1", topic: "Generative AI", viralityScore: 82, platforms: ["X", "THREADS"], sentiment: "HUMOROUS" },
   { id: "2", topic: "Tren Fashion 2025", viralityScore: 74, platforms: ["INSTAGRAM", "TIKTOK"], sentiment: "CASUAL" },
   { id: "3", topic: "Kuliner Viral Jakarta", viralityScore: 69, platforms: ["FACEBOOK", "INSTAGRAM"], sentiment: "PROFESSIONAL" },
   { id: "4", topic: "Startup Digital", viralityScore: 58, platforms: ["X"], sentiment: "CASUAL" },

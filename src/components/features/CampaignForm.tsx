@@ -31,7 +31,7 @@ export function CampaignForm({
     <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
       <div className="space-y-2">
         <label htmlFor="cf-name" className="block text-sm font-semibold">Nama Kampanye</label>
-        <Input id="cf-name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Contoh: Promo Akhir Tahun" />
+        <Input id="cf-name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Example: Year-End Promo" />
       </div>
 
       <div className="space-y-3">
@@ -58,7 +58,7 @@ export function CampaignForm({
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="cf-cron" className="block text-sm font-semibold">Jadwal (cron)</label>
+        <label htmlFor="cf-cron" className="block text-sm font-semibold">Schedule (cron)</label>
         <Input id="cf-cron" value={cron} onChange={(e) => setCron(e.target.value)} placeholder="0 14 * * *" />
       </div>
 

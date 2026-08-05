@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 const campaigns = [
   { id: 1, name: "Year-End Promo", platforms: ["X", "Threads"], status: "Active", posts: 4 },
   { id: 2, name: "Product Launch", platforms: ["Instagram", "X"], status: "Draft", posts: 0 },
-  { id: 3, name: "Ulasan Pelanggan", platforms: ["Threads", "Instagram"], status: "Completed", posts: 6 },
+  { id: 3, name: "Customer Review", platforms: ["Threads", "Instagram"], status: "Completed", posts: 6 },
 ];
 
 export default function CampaignsPage() {

@@ -28,7 +28,7 @@ export default function NewCampaignPage() {
         <CardContent className="p-6 space-y-6">
           <div className="space-y-2">
             <label htmlFor="name" className="block text-sm font-semibold">Nama Kampanye</label>
-            <Input id="name" placeholder="Contoh: Year-End Promo" />
+            <Input id="name" placeholder="Example: Year-End Promo" />
           </div>
 
           <div className="space-y-3">
@@ -57,7 +57,7 @@ export default function NewCampaignPage() {
           <div className="space-y-2">
             <label htmlFor="cron" className="block text-sm font-semibold">Schedule (cron)</label>
             <Input id="cron" value={cron} onChange={(e) => setCron(e.target.value)} placeholder="0 14 * * *" />
-            <p className="text-xs text-[rgb(var(--color-text-muted))]">Contoh: 0 14 * * * (setiap hari pukul 14:00)</p>
+            <p className="text-xs text-[rgb(var(--color-text-muted))]">Example: 0 14 * * * (every day at 14:00)</p>
           </div>
 
           <div className="flex items-center gap-3">
