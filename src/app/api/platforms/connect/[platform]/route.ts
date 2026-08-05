@@ -15,7 +15,7 @@ export async function GET(
   const { platform: raw } = await params;
   const platform = (raw || '').toUpperCase();
 
-  if (platform !== 'X' && platform !== 'THREADS') {
+  if (platform !== 'X' && platform !== 'THREADS' && platform !== 'INSTAGRAM' && platform !== 'TIKTOK' && platform !== 'YOUTUBE' && platform !== 'FACEBOOK') {
     return NextResponse.redirect(new URL('/platforms?error=invalid_platform', req.url));
   }
 
