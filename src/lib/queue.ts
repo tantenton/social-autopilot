@@ -1,5 +1,4 @@
 import { Queue, Worker, Job } from 'bullmq';
-import { createClient } from 'redis';
 import IORedis from 'ioredis';
 
 export const redisConnection = new IORedis(process.env.REDIS_URL || 'redis://localhost:6379', {
