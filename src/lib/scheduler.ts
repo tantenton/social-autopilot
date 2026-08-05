@@ -11,8 +11,8 @@ const OPTIMAL_TIMES: Record<string, string[]> = {
 };
 
 export async function registerCampaignRepeat() {
-  // Example: every hour check for campaigns
-  await contentGenerationQueue.add('generate-campaign', {}, {
+  // Every hour check for active campaigns
+  await contentGenerationQueue.add('check-campaigns', {}, {
     repeat: { pattern: '0 * * * *' },
     jobId: 'campaign-cron',
   });
@@ -20,24 +20,17 @@ export async function registerCampaignRepeat() {
 }
 
 export async function campaignProcessor() {
-  const campaigns = await prisma.campaign.findMany({ where: { status: 'active' } });
+  const campaigns = await prisma.campaignSchedule.findMany({
+    where: { isActive: true },
+  });
+
   for (const campaign of campaigns) {
-    const schedules = await prisma.campaignSchedule.findMany({
-      where: { campaignId: campaign.id, processed: false },
-      orderBy: { scheduledAt: 'asc' },
-      take: 5,
-    });
-    for (const s of schedules) {
-      await contentGenerationQueue.add('generate', {
-        ideaId: s.id,
-        topic: s.ideaTopic,
-        platform: s.platform,
-        tone: s.tone,
-      }, { jobId: `sched-gen-${s.id}` });
-      await prisma.campaignSchedule.update({
-        where: { id: s.id },
-        data: { processed: true },
-      });
-    }
+    // Generate content for each active campaign
+    await contentGenerationQueue.add('generate', {
+      campaignId: campaign.id,
+      topics: campaign.topics,
+      platforms: campaign.platforms,
+      tone: campaign.tone,
+    }, { jobId: `campaign-${campaign.id}` });
   }
 }
