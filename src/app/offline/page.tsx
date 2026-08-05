@@ -1,3 +1,5 @@
+"use client";
+
 export default function OfflinePage() {
   return (
     <main className="min-h-[100dvh] flex flex-col items-center justify-center px-6 text-center" aria-label="Offline page">
