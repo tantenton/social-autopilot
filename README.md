@@ -1,7 +1,7 @@
 # Social Autopilot
 
-[![Build](https://img.shields.io/github/actions/workflow/status/tantenton/social-autopilot/ci.yml?branch=main)](https://github.com/tantenton/social-autopilot/actions)
-[![License: MIT](https://img.shields.io/github/license/tantenton/social-autopilot)](https://github.com/tantenton/social-autopilot/blob/main/LICENSE)
+[![Build](https://img.shields.io/github/actions/workflow/status/tantenton/social-autopilot/ci.yml?branch=master)](https://github.com/tantenton/social-autopilot/actions)
+[![License: MIT](https://img.shields.io/github/license/tantenton/social-autopilot)](https://github.com/tantenton/social-autopilot/blob/master/LICENSE)
 [![Version](https://img.shields.io/github/v/tag/tantenton/social-autopilot?label=version)](https://github.com/tantenton/social-autopilot/releases)
 
 **Autonomous social media manager with AI content generation.** Research viral ideas, generate text and images via Gemini and FAL, schedule posts across X, Threads, Instagram, Facebook, TikTok, and YouTube, and track engagement — all from one dashboard.
