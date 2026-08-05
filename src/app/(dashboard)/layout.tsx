@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, BarChart3 } from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -11,12 +11,10 @@ export default function DashboardLayout({
 
   const navLinks = [
     { href: "/", label: "Overview" },
+    { href: "/analytics", label: "Analytics", icon: BarChart3 },
     { href: "/campaigns", label: "Campaigns" },
     { href: "/content", label: "Content" },
-    { href: "/ideas", label: "Ideas" },
-    { href: "/platforms", label: "Platforms" },
     { href: "/calendar", label: "Calendar" },
-    { href: "/analytics", label: "Analytics" },
   ];
 
   return (

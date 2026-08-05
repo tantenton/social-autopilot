@@ -3,6 +3,12 @@ import { redisConnection, contentGenerationQueue, publishQueue, metricsQueue } f
 import generateContentJob from './jobs/generateContent';
 import publishPostJob from './jobs/publishPost';
 import syncMetricsJob from './jobs/syncMetrics';
+import researchTrendsJob from './jobs/researchTrends';
+
+// Research trends worker (optional — can also be triggered by cron or BullMQ repeat)
+const researchWorker = new Worker('research-trends', async (job: any) => {
+  return researchTrendsJob();
+}, { connection: redisConnection, concurrency: 1 });
 
 const contentWorker = new Worker('content-generation', async (job: any) => {
   if (job.name === 'generate') return generateContentJob(job);
