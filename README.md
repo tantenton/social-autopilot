@@ -1,21 +1,36 @@
 # Social Autopilot
 
-![GitHub last commit](https://img.shields.io/github/last-commit/tantenton/social-autopilot)
-![GitHub issues](https://img.shields.io/github/issues/tantenton/social-autopilot)
-![License](https://img.shields.io/github/license/tantenton/social-autopilot)
+[![Build](https://img.shields.io/github/actions/workflow/status/tantenton/social-autopilot/ci.yml?branch=main)](https://github.com/tantenton/social-autopilot/actions)
+[![License: MIT](https://img.shields.io/github/license/tantenton/social-autopilot)](https://github.com/tantenton/social-autopilot/blob/main/LICENSE)
+[![Version](https://img.shields.io/github/v/tag/tantenton/social-autopilot?label=version)](https://github.com/tantenton/social-autopilot/releases)
 
-Autonomous social media manager — riset ide viral, generate konten (teks/foto/video), post otomatis ke X, Threads, Facebook, Instagram, TikTok, YouTube Shorts.
-
-**🚀 [Live Demo](#) • 📚 [Docs](./docs/) • 🐛 [Report Bug](https://github.com/tantenton/social-autopilot/issues) • 💡 [Request Feature](https://github.com/tantenton/social-autopilot/issues)**
+**Autonomous social media manager with AI content generation.** Research viral ideas, generate text and images via Gemini and FAL, schedule posts across X, Threads, Instagram, Facebook, TikTok, and YouTube, and track engagement — all from one dashboard.
 
 ---
 
-## ⚠️ Read This First
+## Quick Start
 
-**[RISKS.md](./docs/RISKS.md)** — AI-generated content risks, platform ToS, security warnings  
-**[SETUP.md](./docs/SETUP.md)** — Installation & configuration guide  
-**[USAGE.md](./docs/USAGE.md)** — How to use dashboard & create campaigns  
-**[DEVELOPMENT.md](./docs/DEVELOPMENT.md)** — Architecture, pitfalls, debugging
+```bash
+git clone https://github.com/tantenton/social-autopilot.git
+cd social-autopilot
+pnpm install
+cp .env.example .env
+pnpm db:push
+pnpm dev
+```
+
+See [docs/SETUP.md](docs/SETUP.md) for full environment setup.
+
+---
+
+## Features
+
+- **Multi-Platform Connectors** — X (Twitter), Threads, Instagram, Facebook, TikTok, YouTube Shorts
+- **AI Content Generation** — text via Gemini 2.0 Flash, images via FAL Flux
+- **Virality Research Engine** — trending topic scraping, Gemini virality scoring
+- **Campaign Manager** — automated scheduling with cron-based posting
+- **Analytics Dashboard** — post metrics, engagement charts via recharts
+- **Secure Auth** — NextAuth GitHub OAuth, encrypted platform tokens
 
 ---
 
@@ -25,117 +40,72 @@ Autonomous social media manager — riset ide viral, generate konten (teks/foto/
 - **Database:** PostgreSQL 16 + Prisma 7
 - **Job Queue:** BullMQ (Redis)
 - **Auth:** NextAuth.js v5
-- **UI:** Tailwind CSS + shadcn/ui
-- **AI:** Gemini API (gratis via Google AI Studio)
-- **Image:** FAL Flux (cloud generation)
-- **Hosting:** Vercel (frontend) + Railway (workers)
+- **UI:** Tailwind CSS + shadcn/ui + lucide-react icons
+- **AI:** Gemini API (Google AI Studio) + FAL Flux
+- **Charts:** recharts
+- **Hosting:** Vercel (frontend) + Railway (workers + Redis)
 
-## Features
+---
 
-### MVP (Phase 1)
-- ✅ Platform connectors: X (Twitter) + Threads
-- ✅ Text generation via Gemini
-- ✅ Image generation via FAL Flux
-- ✅ Posting scheduler with optimal timing
-- ✅ Campaign dashboard
-
-### Phase 2 (In Progress)
-- 🔄 **OAuth connection flow** — real platform auth (X + Threads)
-- 🔄 **Virality research engine** — trending topics scraper, Gemini scoring
-- 🔄 **Analytics dashboard** — post metrics, engagement charts
-
-### Roadmap
-- [ ] Video generation (Runway/Kling)
-- [ ] Instagram + TikTok + YouTube connectors
-- [ ] A/B testing automation
-- [ ] Multi-account management
-
-## Quick Start
-
-```bash
-# 1. Clone & install
-git clone https://github.com/tantenton/social-autopilot.git
-cd social-autopilot
-pnpm install
-
-# 2. Setup environment
-cp .env.example .env
-# Edit .env — minimum: DATABASE_URL, REDIS_URL, NEXTAUTH_SECRET, GEMINI_API_KEY
-
-# 3. Setup database
-pnpm db:push
-
-# 4. Run (2 terminals)
-pnpm dev          # Terminal 1: Next.js dev server
-pnpm worker:dev   # Terminal 2: Job worker
-```
-
-Open http://localhost:3000
-
-**Full setup guide:** [docs/SETUP.md](./docs/SETUP.md)
-
-## Project Structure
+## Architecture
 
 ```
 social-autopilot/
-├── src/
-│   ├── app/                 # Next.js App Router pages
-│   │   ├── (auth)/         # Auth pages (login/register)
-│   │   ├── (dashboard)/    # Protected dashboard pages
-│   │   └── api/            # API routes
-│   ├── components/         # React components
-│   │   ├── ui/            # shadcn/ui base components
-│   │   └── features/      # Feature-specific components
-│   ├── lib/               # Utilities & configs
-│   │   ├── db.ts         # Prisma client
-│   │   ├── platforms/    # Platform connectors
-│   │   └── ai/           # AI generation utilities
-│   └── types/            # TypeScript types
-├── prisma/
-│   └── schema.prisma     # Database schema
-└── workers/              # Background job processors
+├── src/app/           # Next.js App Router pages
+│   ├── (auth)/        # Auth pages
+│   ├── (dashboard)/   # Protected dashboard
+│   └── api/           # REST API routes
+├── src/components/    # React components
+├── src/lib/           # Utilities, AI, platforms, auth
+├── workers/           # Background job processors
+└── prisma/            # Database schema
 ```
 
-## Key Features
+---
 
-- ✅ **Multi-Platform:** X (Twitter), Threads, Facebook, Instagram, TikTok, YouTube Shorts
-- ✅ **AI Content Generation:** Text via Gemini (gratis), image via FAL Flux
-- ✅ **Smart Scheduling:** Optimal posting time per platform, cron-based automation
-- ✅ **Campaign Manager:** Auto-generate + auto-post konten based on topics
-- ✅ **Analytics Sync:** Daily metrics pull (likes, shares, impressions)
-- ✅ **Secure:** Encrypted credentials, NextAuth GitHub OAuth
+## Environment Variables
 
-## Development
+Required (see `.env.example`):
 
-```bash
-# Database
-pnpm db:push        # Push schema changes
-pnpm db:studio      # Prisma Studio UI
-pnpm db:generate    # Regenerate Prisma Client after schema edit
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `REDIS_URL` | Redis URL for BullMQ queue |
+| `NEXTAUTH_SECRET` | NextAuth session secret |
+| `GEMINI_API_KEY` | Google AI Studio API key |
+| `FAL_KEY` | FAL.ai API key for image generation |
 
-# Testing
-pnpm lint           # ESLint check
-pnpm typecheck      # TypeScript check
-pnpm build          # Production build test
+---
 
-# Production
-pnpm start          # Run production build
-```
+## Releases
 
-**Full dev guide:** [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
+- **v1.0.0** — Initial Release (scaffold, DB schema, platform connectors MVP, auth, dashboard UI)
+- **v2.0.0** — Platform OAuth & AI Research Engine (OAuth X+Threads, virality research, Gemini scoring, analytics dashboard, recharts)
 
-## Deployment
+See [releases](https://github.com/tantenton/social-autopilot/releases) for full changelogs.
 
-### Vercel (Frontend + API Routes)
-```bash
-vercel deploy
-```
+---
 
-### Railway (Job Workers + Redis)
-- Deploy worker process dari `workers/` directory
-- Provision Redis addon
-- Set environment variables
+## Roadmap
+
+- Video generation (Runway / Kling)
+- Instagram + TikTok + YouTube connectors
+- A/B testing automation
+- Multi-account management
+- Content filters and moderation
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feat/my-feature`)
+3. Make changes in English only (comments, strings, docs)
+4. Run `pnpm lint` and `pnpm typecheck`
+5. Open a pull request
+
+---
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE)
