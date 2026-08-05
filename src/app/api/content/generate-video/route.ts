@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
-import { Queue } from 'bullmq';
-import { redisConnection } from '@/lib/queue';
-
-const videoQueue = new Queue('generate-video', { connection: redisConnection });
+import { videoGenerationQueue } from '@/lib/queue';
 
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
-    if (!session?.user?.email) {
+    if (!session?.user?.email && process.env.NODE_ENV === 'production') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -19,14 +16,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'contentPieceId and prompt required' }, { status: 400 });
     }
 
-    const job = await videoQueue.add('generate-video', {
-      contentPieceId,
+    const job = await videoGenerationQueue.add('generate-video', {
+      contentPieceId: String(contentPieceId),
       prompt,
       imageUrl: imageUrl || undefined,
       platform: platform || 'TIKTOK',
     });
 
-    return NextResponse.json({ jobId: job.id });
+    return NextResponse.json({ success: true, jobId: job.id });
   } catch (e: any) {
     return NextResponse.json({ error: e.message || 'Internal error' }, { status: 500 });
   }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { TwitterConnector, ThreadsConnector, InstagramConnector, TikTokConnector, YouTubeConnector, FacebookConnector } from '@/lib/platforms';
+import { checkPublishRateLimit, isIdempotent, setIdempotencyStatus } from '@/lib/publish-guard';
 
 export async function POST(
   req: NextRequest,
@@ -8,6 +9,20 @@ export async function POST(
   try {
     const { platform: rawPlatform } = await params;
     const platform = rawPlatform.toUpperCase();
+    const idempotencyKey = req.headers.get('x-idempotency-key') || req.headers.get('idempotency-key');
+
+    // 1. Idempotency check if key provided in header
+    if (idempotencyKey) {
+      const alreadyProcessed = await isIdempotent(idempotencyKey);
+      if (alreadyProcessed) {
+        return NextResponse.json({ success: true, message: 'Request already processed (idempotent response)' }, { status: 200 });
+      }
+      await setIdempotencyStatus(idempotencyKey, 'in_progress', 60);
+    }
+
+    // 2. Rate limiting check
+    await checkPublishRateLimit(platform);
+
     const { text, imageUrl } = await req.json();
 
     let result;
@@ -47,11 +62,16 @@ export async function POST(
       );
       result = await conn.post(text || 'Hello from Facebook connector', imageUrl);
     } else {
+      if (idempotencyKey) await setIdempotencyStatus(idempotencyKey, 'completed', 0);
       return NextResponse.json({ error: 'Platform not supported' }, { status: 400 });
     }
 
+    if (idempotencyKey) {
+      await setIdempotencyStatus(idempotencyKey, 'completed', 86400);
+    }
+
     return NextResponse.json({ success: true, data: result }, { status: 200 });
-  } catch (e) {
-    return NextResponse.json({ error: (e as Error).message }, { status: 500 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message || 'Internal error' }, { status: 500 });
   }
 }
