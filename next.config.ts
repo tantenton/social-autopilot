@@ -6,6 +6,16 @@ const nextConfig: NextConfig = {
       allowedOrigins: ["localhost:3000", "*.vercel.app"],
     },
   },
+  headers: async () => [
+    {
+      source: "/sw.js",
+      headers: [{ key: "Cache-Control", value: "no-cache" }],
+    },
+    {
+      source: "/manifest.json",
+      headers: [{ key: "Cache-Control", value: "public, max-age=86400" }],
+    },
+  ],
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "fal.media" },

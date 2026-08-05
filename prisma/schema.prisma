@@ -44,7 +44,21 @@ enum Tone {
   HUMOROUS
 }
 
-// ─── NextAuth Models ──────────────────────────────────────────────────────────
+enum ApprovalStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  PUBLISHED
+}
+
+enum TeamRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+// ─── NextAuth Adapter Models (must keep exact names) ─────────────────────────
 
 model Account {
   id                String  @id @default(cuid())
@@ -92,12 +106,54 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  accounts  Account[]
+  accounts  Account[] // NextAuth
   sessions  Session[]
 
   platforms  ConnectedPlatform[]
   ideas      ContentIdea[]
   campaigns  CampaignSchedule[]
+
+  socialAccounts SocialAccount[]
+  teamMemberships TeamMember[]
+  ownedTeams Team[] @relation("TeamOwner")
+}
+
+model SocialAccount {
+  id               String         @id @default(cuid())
+  userId           String
+  platformName     PlatformName
+  accountHandle    String
+  accountName      String
+  avatarUrl        String?
+  credentials      String         // encrypted JSON
+  status           PlatformStatus @default(CONNECTED)
+  isDefault        Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  posts            Post[]
+
+  @@unique([userId, platformName, accountHandle])
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  ownerId     String
+  createdAt   DateTime @default(now())
+  owner       User     @relation("TeamOwner", fields: [ownerId], references: [id])
+  members     TeamMember[]
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  teamId    String
+  userId    String
+  role      TeamRole @default(VIEWER)
+  joinedAt  DateTime @default(now())
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([teamId, userId])
 }
 
 model ConnectedPlatform {
@@ -151,11 +207,17 @@ model ContentPiece {
 model Post {
   id             String       @id @default(cuid())
   contentId      String
-  platformId     String
+  platformId     String?
+  accountId      String?
   platform       PlatformName
   scheduledAt    DateTime?
   postedAt       DateTime?
   status         PostStatus   @default(QUEUED)
+  approvalStatus  ApprovalStatus @default(DRAFT)
+  reviewNote      String?
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  optimalTime     DateTime?
   platformPostId String?
   platformUrl    String?
   metrics        Json?
@@ -164,7 +226,8 @@ model Post {
   updatedAt      DateTime     @updatedAt
 
   content           ContentPiece      @relation(fields: [contentId], references: [id])
-  connectedPlatform ConnectedPlatform @relation(fields: [platformId], references: [id])
+  connectedPlatform ConnectedPlatform? @relation(fields: [platformId], references: [id])
+  account           SocialAccount?     @relation(fields: [accountId], references: [id])
 }
 
 model CampaignSchedule {
