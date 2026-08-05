@@ -23,7 +23,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function PlatformsPage() {
-  let platforms = [];
+  let platforms: Array<{ id: string; name: string; status: string; connectedAt: string }> = [];
   try {
     platforms = await getPlatforms();
   } catch {
@@ -76,15 +76,21 @@ export default async function PlatformsPage() {
 
               <div className="mt-5 flex items-center gap-2">
                 {status === 'CONNECTED' ? (
-                  <form action="/api/platforms/disconnect" method="POST" className="w-full">
-                    <input type="hidden" name="platform" value={key} />
-                    <button
-                      type="submit"
-                      className="w-full inline-flex items-center justify-center rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-surface))] hover:bg-[rgb(var(--color-bg))] px-4 py-2.5 text-sm font-semibold text-[rgb(var(--color-text))] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))]"
-                    >
-                      Disconnect
-                    </button>
-                  </form>
+                  <a
+                    href="#"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await fetch('/api/platforms/disconnect', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ platform: key }),
+                      });
+                      window.location.reload();
+                    }}
+                    className="w-full inline-flex items-center justify-center rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-surface))] hover:bg-[rgb(var(--color-bg))] px-4 py-2.5 text-sm font-semibold text-[rgb(var(--color-text))] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))]"
+                  >
+                    Disconnect
+                  </a>
                 ) : (
                   <a
                     href={`/api/platforms/connect/${key.toLowerCase()}`}

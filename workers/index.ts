@@ -25,13 +25,14 @@ const metricsWorker = new Worker('sync-metrics', async (job: any) => {
   throw new Error('Unknown job name: ' + job.name);
 }, { connection: redisConnection, concurrency: 5 });
 
-console.log('Workers started: content-generation, publish-post, sync-metrics');
+console.log('Workers started: content-generation, publish-post, sync-metrics, research-trends');
 
 // Graceful shutdown
 process.on('SIGTERM', async () => {
   await contentWorker.close();
   await publishWorker.close();
   await metricsWorker.close();
+  await researchWorker.close();
   await redisConnection.quit();
   process.exit(0);
 });
