@@ -115,7 +115,9 @@ model Post {
   platformPostId  String?
   metrics         Json?
   content         ContentPiece? @relation("piece_posts", fields: [contentId], references: [id], onDelete: SetNull)
+  contentRef      Post[] @relation("piece_posts")
   idea            ContentIdea? @relation("idea_posts", fields: [ideaId], references: [id], onDelete: SetNull)
+  ideaRef         Post[] @relation("idea_posts")
 }
 
 enum PostStatus {

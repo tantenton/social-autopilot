@@ -1,9 +1,9 @@
-import { Twitter, Instagram, Sparkles, Globe } from "lucide-react";
+import { Sparkles, Globe } from "lucide-react";
 
 const icons: Record<string, React.ReactNode> = {
-  X: <Twitter size={16} aria-hidden="true" />,
+  X: <Sparkles size={16} aria-hidden="true" />,
   Threads: <Sparkles size={16} aria-hidden="true" />,
-  Instagram: <Instagram size={16} aria-hidden="true" />,
+  Instagram: <Sparkles size={16} aria-hidden="true" />,
   Facebook: <Globe size={16} aria-hidden="true" />,
   TikTok: <Sparkles size={16} aria-hidden="true" />,
 };
