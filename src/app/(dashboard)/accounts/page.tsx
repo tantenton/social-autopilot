@@ -79,23 +79,21 @@ export default function AccountsPage() {
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
                         {!acc.isDefault && (
-                          <form action={async () => {
-                            'use server';
-                            await fetch(`/api/accounts/${acc.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ isDefault: true, platformName: key }) });
-                          }}>
-                            <button type="submit" className="inline-flex items-center gap-1 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-surface))] hover:bg-[rgb(var(--color-bg))] px-2.5 py-1.5 text-xs font-semibold text-[rgb(var(--color-text))] shadow-sm transition-colors" title="Set default">
-                              <Star size={12} /> Default
-                            </button>
-                          </form>
-                        )}
-                        <form action={async () => {
-                          'use server';
-                          await fetch(`/api/accounts/${acc.id}`, { method: 'DELETE' });
-                        }}>
-                          <button type="submit" className="inline-flex items-center gap-1 rounded-lg border border-[rgb(var(--color-danger))]/20 bg-[rgb(var(--color-danger))]/10 hover:bg-[rgb(var(--color-danger))]/20 px-2.5 py-1.5 text-xs font-semibold text-[rgb(var(--color-danger))] transition-colors" title="Remove">
-                            <Trash2 size={12} /> Remove
+                          <button 
+                            onClick={() => fetch(`/api/accounts/${acc.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ isDefault: true, platformName: key }) }).then(() => window.location.reload())}
+                            className="inline-flex items-center gap-1 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-surface))] hover:bg-[rgb(var(--color-bg))] px-2.5 py-1.5 text-xs font-semibold text-[rgb(var(--color-text))] shadow-sm transition-colors" 
+                            title="Set default"
+                          >
+                            <Star size={12} /> Default
                           </button>
-                        </form>
+                        )}
+                        <button 
+                          onClick={() => { if(confirm('Remove this account?')) fetch(`/api/accounts/${acc.id}`, { method: 'DELETE' }).then(() => window.location.reload()); }}
+                          className="inline-flex items-center gap-1 rounded-lg border border-[rgb(var(--color-danger))]/20 bg-[rgb(var(--color-danger))]/10 hover:bg-[rgb(var(--color-danger))]/20 px-2.5 py-1.5 text-xs font-semibold text-[rgb(var(--color-danger))] transition-colors" 
+                          title="Remove"
+                        >
+                          <Trash2 size={12} /> Remove
+                        </button>
                       </div>
                     </div>
                   ))}

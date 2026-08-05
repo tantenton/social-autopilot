@@ -64,18 +64,14 @@ export default function TeamPage() {
                       <div className="flex items-center gap-2 shrink-0">
                         {m.role !== 'ADMIN' && (
                           <>
-                            <form action={async () => {
-                              'use server';
-                              await fetch(`/api/teams/${currentTeamId}/members`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: m.userId || m.id, role: 'EDITOR' }) });
-                            }}>
-                              <button type="submit" className="text-xs font-semibold text-blue-600 hover:underline">Make Editor</button>
-                            </form>
-                            <form action={async () => {
-                              'use server';
-                              await fetch(`/api/teams/${currentTeamId}/members?userId=${m.userId || m.id}`, { method: 'DELETE' });
-                            }}>
-                              <button type="submit" className="inline-flex items-center gap-1 text-[rgb(var(--color-danger))] hover:text-[rgb(var(--color-danger-hover))] text-xs font-semibold"><Trash2 size={12} /> Remove</button>
-                            </form>
+                            <button
+                              onClick={() => fetch(`/api/teams/${currentTeamId}/members`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: m.userId || m.id, role: 'EDITOR' }) }).then(() => window.location.reload())}
+                              className="text-xs font-semibold text-blue-600 hover:underline"
+                            >Make Editor</button>
+                            <button
+                              onClick={() => { if(confirm('Remove member?')) fetch(`/api/teams/${currentTeamId}/members?userId=${m.userId || m.id}`, { method: 'DELETE' }).then(() => window.location.reload()); }}
+                              className="inline-flex items-center gap-1 text-[rgb(var(--color-danger))] text-xs font-semibold hover:underline"
+                            ><Trash2 size={12} /> Remove</button>
                           </>
                         )}
                       </div>
