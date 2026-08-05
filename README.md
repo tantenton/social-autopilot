@@ -39,12 +39,16 @@ Autonomous social media manager — riset ide viral, generate konten (teks/foto/
 - ✅ Posting scheduler with optimal timing
 - ✅ Campaign dashboard
 
+### Phase 2 (In Progress)
+- 🔄 **OAuth connection flow** — real platform auth (X + Threads)
+- 🔄 **Virality research engine** — trending topics scraper, Gemini scoring
+- 🔄 **Analytics dashboard** — post metrics, engagement charts
+
 ### Roadmap
 - [ ] Video generation (Runway/Kling)
 - [ ] Instagram + TikTok + YouTube connectors
-- [ ] Virality research engine (trending topics)
 - [ ] A/B testing automation
-- [ ] Analytics dashboard
+- [ ] Multi-account management
 
 ## Quick Start
 

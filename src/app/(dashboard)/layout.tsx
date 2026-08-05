@@ -13,7 +13,10 @@ export default function DashboardLayout({
     { href: "/", label: "Overview" },
     { href: "/campaigns", label: "Campaigns" },
     { href: "/content", label: "Content" },
+    { href: "/ideas", label: "Ideas" },
+    { href: "/platforms", label: "Platforms" },
     { href: "/calendar", label: "Calendar" },
+    { href: "/analytics", label: "Analytics" },
   ];
 
   return (
