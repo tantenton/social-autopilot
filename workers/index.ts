@@ -26,7 +26,12 @@ const metricsWorker = new Worker('sync-metrics', async (job: any) => {
   throw new Error('Unknown job name: ' + job.name);
 }, { connection: redisConnection, concurrency: 5 });
 
-console.log('Workers started: content-generation, publish-post, sync-metrics, research-trends');
+const videoGenerationWorker = new Worker('generate-video', async (job: any) => {
+  if (job.name === 'generate-video') return generateVideoJob(job);
+  throw new Error('Unknown video job name: ' + job.name);
+}, { connection: redisConnection, concurrency: 2 });
+
+console.log('Workers started: content-generation, publish-post, sync-metrics, research-trends, generate-video');
 
 // Graceful shutdown
 process.on('SIGTERM', async () => {
@@ -34,6 +39,7 @@ process.on('SIGTERM', async () => {
   await publishWorker.close();
   await metricsWorker.close();
   await researchWorker.close();
+  await videoGenerationWorker.close();
   await redisConnection.quit();
   process.exit(0);
 });
