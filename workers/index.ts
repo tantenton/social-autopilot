@@ -1,6 +1,7 @@
 import { Worker } from 'bullmq';
 import { redisConnection, contentGenerationQueue, publishQueue, metricsQueue } from '../src/lib/queue';
 import generateContentJob from './jobs/generateContent';
+import generateVideoJob from './jobs/generateVideo';
 import publishPostJob from './jobs/publishPost';
 import syncMetricsJob from './jobs/syncMetrics';
 import researchTrendsJob from './jobs/researchTrends';
