@@ -72,6 +72,60 @@ export async function GET(
         }),
       });
       if (resp.ok) tokenData = await resp.json();
+    } else if (platform === 'INSTAGRAM') {
+      const resp = await fetch('https://api.instagram.com/oauth/access_token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: process.env.INSTAGRAM_APP_ID || '',
+          client_secret: process.env.INSTAGRAM_APP_SECRET || '',
+          grant_type: 'authorization_code',
+          redirect_uri: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/platforms/callback/instagram`,
+          code,
+        }).toString(),
+      });
+      if (resp.ok) tokenData = await resp.json();
+    } else if (platform === 'TIKTOK') {
+      const resp = await fetch('https://open.tiktokapis.com/v2/oauth/token/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_key: process.env.TIKTOK_CLIENT_KEY || '',
+          client_secret: process.env.TIKTOK_CLIENT_SECRET || '',
+          code,
+          grant_type: 'authorization_code',
+          redirect_uri: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/platforms/callback/tiktok`,
+        }).toString(),
+      });
+      if (resp.ok) tokenData = await resp.json();
+    } else if (platform === 'YOUTUBE') {
+      const tokenUrl = 'https://oauth2.googleapis.com/token';
+      const body = new URLSearchParams({
+        code,
+        client_id: process.env.YOUTUBE_CLIENT_ID || '',
+        client_secret: process.env.YOUTUBE_CLIENT_SECRET || '',
+        redirect_uri: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/platforms/callback/youtube`,
+        grant_type: 'authorization_code',
+      }).toString();
+      const resp = await fetch(tokenUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+      if (resp.ok) tokenData = await resp.json();
+    } else if (platform === 'FACEBOOK') {
+      const tokenUrl = 'https://graph.facebook.com/v19.0/oauth/access_token';
+      const resp = await fetch(tokenUrl, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: process.env.FACEBOOK_APP_ID || '',
+          client_secret: process.env.FACEBOOK_APP_SECRET || '',
+          redirect_uri: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/platforms/callback/facebook`,
+          code,
+        }).toString(),
+      });
+      if (resp.ok) tokenData = await resp.json();
     }
 
     const user = await prisma.user.findUnique({ where: { email: session.user.email } });

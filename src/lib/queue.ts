@@ -26,6 +26,16 @@ export const publishQueue = new Queue('publish-post', {
   },
 });
 
+export const videoGenerationQueue = new Queue('generate-video', {
+  connection: redisConnection,
+  defaultJobOptions: {
+    attempts: 3,
+    backoff: { type: 'exponential', delay: 2000 },
+    removeOnComplete: { count: 50 },
+    removeOnFail: { count: 20 },
+  },
+});
+
 export const metricsQueue = new Queue('sync-metrics', {
   connection: redisConnection,
   defaultJobOptions: {
