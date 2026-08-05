@@ -2,11 +2,9 @@ import crypto from 'crypto';
 
 const ALGORITHM = 'aes-256-cbc';
 const IV_LENGTH = 16;
-const KEY_LENGTH = 32;
 
 function getKey(): Buffer {
   const raw = process.env.ENCRYPTION_KEY || '';
-  // Derive a 32-byte key from the hex string
   const hex = raw.length === 64 ? raw : '0'.repeat(64);
   return Buffer.from(hex.slice(0, 64), 'hex');
 }
@@ -20,11 +18,11 @@ export function encrypt(text: string): string {
 }
 
 export function decrypt(text: string): string {
-  const [ivHex, encryptedHex] = text.split(':');
-  if (!ivHex || !encryptedHex) throw new Error('Invalid encrypted format');
-  const iv = Buffer.from(ivHex, 'hex');
+  const parts = text.split(':');
+  if (parts.length !== 2) throw new Error('Invalid encrypted format');
+  const iv = Buffer.from(parts[0], 'hex');
   const decipher = crypto.createDecipheriv(ALGORITHM, getKey(), iv);
-  let decrypted = decipher.update(encryptedHex, 'hex', 'utf8');
+  let decrypted = decipher.update(parts[1], 'hex', 'utf8');
   decrypted += decipher.final('utf8');
   return decrypted;
 }
