@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface ContentItem {
-  id: number;
+  id: string;
   text: string;
   platform: string;
   image: string;
+  isFromDb?: boolean;
 }
 
 interface Variant {
@@ -20,28 +21,56 @@ interface Variant {
   predictedScore?: number;
 }
 
-const items: ContentItem[] = [
-  { id: 1, text: "Promo produk baru dengan diskon 20%", platform: "X", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80" },
-  { id: 2, text: "Tips meningkatkan engagement di Threads", platform: "Threads", image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80" },
-  { id: 3, text: "Review pelanggan bulan ini", platform: "Instagram", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" },
+const mockFallbackItems: ContentItem[] = [
+  { id: "mock-1", text: "Promo produk baru dengan diskon 20%", platform: "X", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80", isFromDb: false },
+  { id: "mock-2", text: "Tips meningkatkan engagement di Threads", platform: "Threads", image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80", isFromDb: false },
+  { id: "mock-3", text: "Review pelanggan bulan ini", platform: "Instagram", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80", isFromDb: false },
 ];
 
 export default function ContentPage() {
-  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const [items, setItems] = useState<ContentItem[]>(mockFallbackItems);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [lastABTestItem, setLastABTestItem] = useState<ContentItem | null>(null);
   const [variants, setVariants] = useState<Variant[]>([]);
   const [showVariants, setShowVariants] = useState(false);
   const [loadingVariants, setLoadingVariants] = useState(false);
   const [variantsError, setVariantsError] = useState<string | null>(null);
 
-  const [generatingVideoId, setGeneratingVideoId] = useState<number | null>(null);
+  const [generatingVideoId, setGeneratingVideoId] = useState<string | null>(null);
   const [videoStatus, setVideoStatus] = useState<{
     type: "success" | "error";
     message: string;
-    itemId: number;
+    itemId: string;
   } | null>(null);
 
+  useEffect(() => {
+    fetchContentPieces();
+  }, []);
+
+  const fetchContentPieces = async () => {
+    try {
+      const res = await fetch("/api/content");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.content && data.content.length > 0) {
+          setItems(data.content);
+        }
+      }
+    } catch {
+      // Keep mock fallback if API fails
+    }
+  };
+
   const handleGenerateVideo = async (item: ContentItem) => {
+    if (!item.isFromDb && item.id.startsWith("mock-")) {
+      setVideoStatus({
+        type: "error",
+        message: "Content harus tersimpan di database (CUID) terlebih dahulu sebelum generate video.",
+        itemId: item.id,
+      });
+      return;
+    }
+
     setGeneratingVideoId(item.id);
     setVideoStatus(null);
     try {
@@ -49,7 +78,7 @@ export default function ContentPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contentPieceId: String(item.id),
+          contentPieceId: item.id,
           prompt: item.text,
           imageUrl: item.image,
           platform: item.platform,
@@ -147,7 +176,8 @@ export default function ContentPage() {
 
               <div className="flex gap-2">
                 <button
-                  disabled={generatingVideoId === item.id}
+                  disabled={generatingVideoId === item.id || (!item.isFromDb && item.id.startsWith("mock-"))}
+                  title={!item.isFromDb && item.id.startsWith("mock-") ? "Tersedia setelah disimpan ke database" : ""}
                   onClick={() => handleGenerateVideo(item)}
                   className="inline-flex items-center rounded-md border border-[rgb(var(--color-border))] bg-[rgb(var(--color-surface))] px-3 py-1.5 text-xs font-medium hover:bg-[rgb(var(--color-bg))] transition-colors disabled:opacity-50"
                 >
@@ -168,7 +198,7 @@ export default function ContentPage() {
       {showVariants && (
         <div className="rounded-xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-surface))] p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold">A/B Test Variants {selectedItem ? `(Item #${selectedItem})` : ""}</h2>
+            <h2 className="text-lg font-bold">A/B Test Variants {selectedItem ? `(Item #${selectedItem.slice(-6)})` : ""}</h2>
             <button
               onClick={() => setShowVariants(false)}
               className="text-xs text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-foreground))]"

@@ -2,13 +2,20 @@ name: CI
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [ master, main, fix/* ]
   pull_request:
     branches: [ master, main ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/social_autopilot_test?schema=public"
+      REDIS_URL: "redis://localhost:6379"
+      NEXTAUTH_SECRET: "ci-secret-key-placeholder-32-chars-long"
+      GEMINI_API_KEY: "ci-gemini-key-placeholder"
+      FAL_KEY: "ci-fal-key-placeholder"
 
     steps:
       - name: Checkout code
@@ -36,6 +43,9 @@ jobs:
 
       - name: Run typecheck
         run: pnpm typecheck
+
+      - name: Run tests
+        run: pnpm test
 
       - name: Run build
         run: pnpm build
