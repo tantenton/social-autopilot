@@ -1,0 +1,31 @@
+import { Worker } from 'bullmq';
+import { redisConnection, contentGenerationQueue, publishQueue, metricsQueue } from '../src/lib/queue';
+import generateContentJob from './jobs/generateContent';
+import publishPostJob from './jobs/publishPost';
+import syncMetricsJob from './jobs/syncMetrics';
+
+const contentWorker = new Worker('content-generation', async (job: any) => {
+  if (job.name === 'generate') return generateContentJob(job);
+  throw new Error('Unknown job name: ' + job.name);
+}, { connection: redisConnection, concurrency: 2 });
+
+const publishWorker = new Worker('publish-post', async (job: any) => {
+  if (job.name === 'publish') return publishPostJob(job);
+  throw new Error('Unknown job name: ' + job.name);
+}, { connection: redisConnection, concurrency: 3 });
+
+const metricsWorker = new Worker('sync-metrics', async (job: any) => {
+  if (job.name === 'sync') return syncMetricsJob(job);
+  throw new Error('Unknown job name: ' + job.name);
+}, { connection: redisConnection, concurrency: 5 });
+
+console.log('Workers started: content-generation, publish-post, sync-metrics');
+
+// Graceful shutdown
+process.on('SIGTERM', async () => {
+  await contentWorker.close();
+  await publishWorker.close();
+  await metricsWorker.close();
+  await redisConnection.quit();
+  process.exit(0);
+});

@@ -1,0 +1,32 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXTAUTH_URL": "@nextauth_url",
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "DATABASE_URL": "@database_url",
+    "GEMINI_API_KEY": "@gemini_api_key",
+    "FAL_KEY": "@fal_key",
+    "TWITTER_API_KEY": "@twitter_api_key",
+    "TWITTER_API_SECRET": "@twitter_api_secret",
+    "THREADS_APP_ID": "@threads_app_id",
+    "THREADS_APP_SECRET": "@threads_app_secret",
+    "FACEBOOK_ACCESS_TOKEN": "@facebook_access_token",
+    "INSTAGRAM_BUSINESS_ACCOUNT_ID": "@instagram_business_account_id",
+    "TIKTOK_CLIENT_KEY": "@tiktok_client_key",
+    "YOUTUBE_CLIENT_ID": "@youtube_client_id",
+    "YOUTUBE_CLIENT_SECRET": "@youtube_client_secret"
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+      ]
+    }
+  ]
+}

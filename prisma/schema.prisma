@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ContentPiece {
+  id              String   @id @default(cuid())
+  ideaId          String?
+  topic           String
+  platform        String   // X, THREADS, etc
+  tone            String   // CASUAL, PROFESSIONAL, HUMOROUS
+  text            String
+  imageUrl        String?
+  assetUrl        String?
+  rationale       String?
+  viralityEstimate Float?
+  status          String   @default("draft") // draft, published, failed
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  Post Post?
+}
+
+model Post {
+  id            String      @id @default(cuid())
+  contentPieceId String?   @unique
+  platform      String
+  scheduledAt   DateTime
+  publishedAt   DateTime?
+  metricsJson   String?    // JSON string for metrics
+  status        String     @default("scheduled") // scheduled, published, failed
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  contentPiece  ContentPiece? @relation(fields: [contentPieceId], references: [id])
+}
+
+model Campaign {
+  id          String    @id @default(cuid())
+  name        String
+  status      String    @default("active") // active, paused, completed
+  createdAt   DateTime  @default(now())
+}
+
+model CampaignSchedule {
+  id          String    @id @default(cuid())
+  campaignId  String
+  ideaTopic   String
+  platform    String
+  tone        String    @default("CASUAL")
+  scheduledAt DateTime  // when to post
+  processed   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+}
