@@ -139,6 +139,7 @@ model ContentPiece {
   prompt           String?
   text             String?      @db.Text
   assetUrl         String?
+  mediaUrl         String?
   rationale        String?      @db.Text
   viralityEstimate Int?
   generatedAt      DateTime     @default(now())
